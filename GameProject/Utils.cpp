@@ -21,3 +21,9 @@ void Utils::DrawLine(HDC hdc, Pos from, Pos to)
 	::MoveToEx(hdc, static_cast<int32>(from.x), static_cast<int32>(from.y), nullptr);
 	::LineTo(hdc, static_cast<int32>(to.x), static_cast<int32>(to.y));
 }
+
+void Utils::DrawTriangle(HDC hdc, Pos pos, int32 length)
+{
+	POINT pt[3] = { {pos.x - (length / 2), pos.y + length}, {pos.x, pos.y}, {pos.x + (length / 2), pos.y + length} };
+	Polygon(hdc, pt, 3);
+}
