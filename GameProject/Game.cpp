@@ -10,7 +10,7 @@ Game::Game()
 
 Game::~Game()
 {
-	// 사실 마지막에 해야..
+	// 마지막에 해야 효과 있음
 	GET_SINGLE(SceneManager)->Clear();
 
 	_CrtDumpMemoryLeaks();
@@ -46,14 +46,6 @@ void Game::Render()
 {
 	uint32 fps = GET_SINGLE(TimeManager)->GetFps();
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
-
-	/*
-	{
-		POINT mousePos = GET_SINGLE(InputManager)->GetMousePos();
-		wstring str = std::format(L"Mouse({0},{1})", mousePos.x, mousePos.y);
-		::TextOut(_hdcBack, 20, 10, str.c_str(), static_cast<int>(str.size()));
-	}
-	*/
 
 	{
 		wstring str = std::format(L"(FPS {0}, DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));

@@ -21,7 +21,7 @@ void Utils::DrawLine(HDC hdc, Pos from, Pos to)
 	::MoveToEx(hdc, static_cast<int32>(from.x), static_cast<int32>(from.y), nullptr);
 	::LineTo(hdc, static_cast<int32>(to.x), static_cast<int32>(to.y));
 }
-
+// 삼각형 그리기는 내장 함수에서 지원하지 않음
 void Utils::DrawTriangle(HDC hdc, Pos pos, int32 length)
 {
 	POINT pt[3] = { {pos.x - (length / 2), pos.y + length}, {pos.x, pos.y}, {pos.x + (length / 2), pos.y + length} };

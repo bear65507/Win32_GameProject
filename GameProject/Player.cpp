@@ -15,8 +15,6 @@ Player::~Player()
 
 void Player::Init()
 {
-	// 데이터시트 : Excel, Json << 고정 값 
-	// 데이터베이스 : Orcale, MySQL << 변하는 정보
 	_stat.hp = 100;
 	_stat.maxHp = 100;
 	_stat.speed = 500;

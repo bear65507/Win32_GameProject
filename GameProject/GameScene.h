@@ -12,6 +12,6 @@ public:
 	virtual void Render(HDC hdc) override;
 
 private:
-	//class Player* _player = nullptr;
+
 };
 
