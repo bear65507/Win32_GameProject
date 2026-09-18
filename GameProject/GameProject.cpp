@@ -7,6 +7,8 @@
 
 HINSTANCE hInst;                              
 HWND g_HWND;
+int32 windowWidth = 800;
+int32 windowLength = 900;
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -87,7 +89,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; 
 
-   RECT windowRect = { 0, 0, 800, 900 };
+   RECT windowRect = { 0, 0, windowWidth, windowLength };
    ::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
 
    HWND hWnd = CreateWindowW(L"GameProject", L"Client", WS_OVERLAPPEDWINDOW,

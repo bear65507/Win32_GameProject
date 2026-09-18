@@ -5,6 +5,9 @@
 #include "Missile.h"
 #include "ObjectManager.h"
 
+extern int32 windowWidth;
+extern int32 windowLength;
+
 Player::Player() : Object(ObjectType::Player)
 {
 }
@@ -48,6 +51,23 @@ void Player::Update()
 	{
 		_pos.y += _stat.speed * deltaTime;
 	}
+
+	// ==============================================================
+	// 위치 제한 코드 추가
+	// 렌더링 시 삼각형 크기(75)를 고려해 경계를 넘어가지 않도록 여백을 둡니다.
+	// (중심점 기준으로 그려진다면 크기의 절반 정도를 margin으로 설정)
+	float margin = 35.0f;
+
+	if (_pos.x < margin)
+		_pos.x = margin;
+	else if (_pos.x > windowWidth - margin)
+		_pos.x = windowWidth - margin;
+
+	if (_pos.y < margin)
+		_pos.y = margin;
+	else if (_pos.y > windowLength - margin)
+		_pos.y = windowLength - margin;
+	// ==============================================================
 
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
 	{
