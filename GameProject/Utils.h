@@ -15,4 +15,6 @@ public:
 	static void DrawLine(HDC hdc, Pos from, Pos to);
 
 	static void DrawTriangle(HDC hdc, Pos pos, int32 length);
+
+	static void DrawTriangleInvert(HDC hdc, Pos pos, int32 length);
 };

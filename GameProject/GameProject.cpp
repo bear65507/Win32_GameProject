@@ -8,7 +8,7 @@
 HINSTANCE hInst;                              
 HWND g_HWND;
 int32 windowWidth = 800;
-int32 windowLength = 900;
+int32 windowLength = 1050;
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -87,25 +87,29 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   hInst = hInstance; 
+    hInst = hInstance;
 
-   RECT windowRect = { 0, 0, windowWidth, windowLength };
-   ::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
+    // 창 크기 조절(WS_THICKFRAME)과 최대화 버튼(WS_MAXIMIZEBOX)을 제외한 스타일 정의
+    DWORD windowStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 
-   HWND hWnd = CreateWindowW(L"GameProject", L"Client", WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, hInstance, nullptr);
+    RECT windowRect = { 0, 0, windowWidth, windowLength };
+    ::AdjustWindowRect(&windowRect, windowStyle, false);
 
-   g_HWND = hWnd;
+    // CreateWindowW에도 WS_OVERLAPPEDWINDOW 대신 windowStyle 적용
+    HWND hWnd = CreateWindowW(L"GameProject", L"MyGame", windowStyle,
+        CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+    g_HWND = hWnd;
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+    if (!hWnd)
+    {
+        return FALSE;
+    }
 
-   return TRUE;
+    ShowWindow(hWnd, nCmdShow);
+    UpdateWindow(hWnd);
+
+    return TRUE;
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -27,3 +27,9 @@ void Utils::DrawTriangle(HDC hdc, Pos pos, int32 length)
 	POINT pt[3] = { {pos.x - (length / 2), pos.y + length}, {pos.x, pos.y}, {pos.x + (length / 2), pos.y + length} };
 	Polygon(hdc, pt, 3);
 }
+
+void Utils::DrawTriangleInvert(HDC hdc, Pos pos, int32 length)
+{
+	POINT pt[3] = { {pos.x - (length * 2 / 3), pos.y - length}, {pos.x, pos.y}, {pos.x + (length * 2 / 3), pos.y - length} };
+	Polygon(hdc, pt, 3);
+}

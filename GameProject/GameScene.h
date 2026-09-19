@@ -12,6 +12,6 @@ public:
 	virtual void Render(HDC hdc) override;
 
 private:
-
+	float _spawnTimer = 0.0f; // 소환 주기를 계산하기 위한 타이머 변수
 };
 
