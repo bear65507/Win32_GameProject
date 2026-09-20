@@ -3,6 +3,7 @@
 enum class ObjectType
 {
 	None,
+	Effect,
 	Player,
 	Monster,
 	Projectile,
@@ -23,6 +24,8 @@ public:
 
 	Pos		GetPos() { return _pos; }
 	void	SetPos(Pos pos) { this->_pos = pos; }
+
+	Stat& GetStat() { return _stat; }
 
 protected:
 	ObjectType	_type = ObjectType::None;

@@ -16,8 +16,8 @@ Enemy::~Enemy()
 
 void Enemy::Init()
 {
-	_stat.hp = 100;
-	_stat.maxHp = 100;
+	_stat.hp = 50;
+	_stat.maxHp = 50;
 	_stat.speed = 300;
 	_stat.damage = 10;
 

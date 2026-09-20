@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "TimeManager.h"
-#include "Missile.h"
+#include "Guns.h"
 #include "ObjectManager.h"
 
 extern int32 windowWidth;
@@ -18,10 +18,9 @@ Player::~Player()
 
 void Player::Init()
 {
-	_stat.hp = 100;
-	_stat.maxHp = 100;
+	_stat.hp = 120;
+	_stat.maxHp = 120;
 	_stat.speed = 500;
-	_stat.damage = 10;
 
 	_pos.x = 400;
 	_pos.y = 500;
@@ -71,9 +70,9 @@ void Player::Update()
 
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
 	{
-		Missile* missile = GET_SINGLE(ObjectManager)->CreateObject<Missile>();
-		missile->SetPos(_pos);
-		GET_SINGLE(ObjectManager)->Add(missile);
+		Guns* guns = GET_SINGLE(ObjectManager)->CreateObject<Guns>();
+		guns->SetPos(_pos);
+		GET_SINGLE(ObjectManager)->Add(guns);
 	}
 }
 

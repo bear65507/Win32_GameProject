@@ -1,24 +1,24 @@
 #include "pch.h"
-#include "Missile.h"
+#include "Guns.h"
+#include "Effect.h"
 #include "TimeManager.h"
 #include "ObjectManager.h"
 
-Missile::Missile() : Object(ObjectType::Projectile)
+Guns::Guns() : Object(ObjectType::Projectile)
 {
 }
 
-Missile::~Missile()
+Guns::~Guns()
 {
 }
 
-void Missile::Init()
+void Guns::Init()
 {
-	_stat.hp = 1;
-	_stat.maxHp = 1;
 	_stat.speed = 600;
+	_stat.damage = 20;
 }
 
-void Missile::Update()
+void Guns::Update()
 {
 	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
 
@@ -49,7 +49,15 @@ void Missile::Update()
 
 		if (dist < 25)
 		{
-			GET_SINGLE(ObjectManager)->Remove(object);
+			// 피격 이펙트
+			Effect* hitEffect = GET_SINGLE(ObjectManager)->CreateObject<Effect>();
+			hitEffect->SetPos(_pos);
+			GET_SINGLE(ObjectManager)->Add(hitEffect);
+
+			object->GetStat().hp -= _stat.damage;
+
+			if (object->GetStat().hp <= 0)
+				GET_SINGLE(ObjectManager)->Remove(object);
 			GET_SINGLE(ObjectManager)->Remove(this);
 			return; // 나 자신(미사일)이 삭제되었으므로 즉시 함수 종료
 		}
@@ -63,7 +71,7 @@ void Missile::Update()
 	}
 }
 
-void Missile::Render(HDC hdc)
+void Guns::Render(HDC hdc)
 {
 	Utils::DrawCircle(hdc, _pos, 10);
 }

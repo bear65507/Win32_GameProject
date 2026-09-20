@@ -92,8 +92,11 @@
     <ClInclude Include="Enemy.h">
       <Filter>소스 파일\03. Objects\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Missile.h">
+    <ClInclude Include="Guns.h">
       <Filter>소스 파일\03. Objects\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>소스 파일\03. Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,8 +139,11 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>소스 파일\03. Objects\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Missile.cpp">
+    <ClCompile Include="Guns.cpp">
       <Filter>소스 파일\03. Objects\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>소스 파일\03. Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
