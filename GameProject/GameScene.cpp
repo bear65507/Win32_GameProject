@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "GameScene.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -24,11 +24,11 @@ void GameScene::Init()
 		GET_SINGLE(ObjectManager)->Add(player);
 	}
 
-	// 1. ½ÃÀÛ ½Ã 5¸¶¸® ¼ÒÈ¯À¸·Î º¯°æ
+	// 1. ì‹œì‘ ì‹œ 5ë§ˆë¦¬ ì†Œí™˜ìœ¼ë¡œ ë³€ê²½
 	for (int32 i = 0; i < 5; i++)
 	{
 		Enemy* monster = GET_SINGLE(ObjectManager)->CreateObject<Enemy>();
-		// XÁÂÇ¥¸¦ 100 ~ 580 Á¤µµ·Î °ãÄ¡Áö ¾Ê°Ô ºĞ»ê
+		// Xì¢Œí‘œë¥¼ 100 ~ 580 ì •ë„ë¡œ ê²¹ì¹˜ì§€ ì•Šê²Œ ë¶„ì‚°
 		float xPos = 100.0f + (i * 120.0f);
 		monster->SetPos(Pos{ xPos, -100.0f });
 		GET_SINGLE(ObjectManager)->Add(monster);
@@ -46,11 +46,11 @@ void GameScene::Update()
 
 	for (Object* object : objects)
 	{
-		// 1. °´Ã¼°¡ ÀÌ¹Ì »èÁ¦µÇ¾î ¿øº» ¸®½ºÆ®¿¡ ¾ø´Ù¸é ½ºÅµ (Dangling Pointer ¹æÁö)
+		// 1. ê°ì²´ê°€ ì´ë¯¸ ì‚­ì œë˜ì–´ ì›ë³¸ ë¦¬ìŠ¤íŠ¸ì— ì—†ë‹¤ë©´ ìŠ¤í‚µ (Dangling Pointer ë°©ì§€)
 		if (std::find(currentObjects.begin(), currentObjects.end(), object) == currentObjects.end())
 			continue;
 
-		// 2. Update °úÁ¤¿¡¼­ ¹Ì»çÀÏÀÌ³ª ¸ó½ºÅÍ°¡ »èÁ¦µÉ ¼ö ÀÖÀ¸¹Ç·Î, Ä«¿îÆ®¸¦ ¸ÕÀú ¼öÇàÇÕ´Ï´Ù.
+		// 2. Update ê³¼ì •ì—ì„œ ë¯¸ì‚¬ì¼ì´ë‚˜ ëª¬ìŠ¤í„°ê°€ ì‚­ì œë  ìˆ˜ ìˆìœ¼ë¯€ë¡œ, ì¹´ìš´íŠ¸ë¥¼ ë¨¼ì € ìˆ˜í–‰í•©ë‹ˆë‹¤.
 		if (dynamic_cast<Enemy*>(object) != nullptr)
 		{
 			enemyCount++;
@@ -86,5 +86,44 @@ void GameScene::Render(HDC hdc)
 	for (Object* object : objects)
 	{
 		object->Render(hdc);
+	}
+
+	{
+		int32 playerHp = 0;
+		const vector<Object*>& objects = GET_SINGLE(ObjectManager)->GetObjects();
+
+		// 1. ObjectManagerë¥¼ ìˆœíšŒí•˜ë©° í”Œë ˆì´ì–´ ê°ì²´ë¥¼ ì°¾ìŠµë‹ˆë‹¤.
+		for (Object* object : objects)
+		{
+			if (object->GetObjectType() == ObjectType::Player)
+			{
+				playerHp = object->GetStat().hp; // ì´ì „ ë‹¨ê³„ì—ì„œ GetStat()ì„ publicìœ¼ë¡œ ë§Œë“¤ì—ˆë‹¤ê³  ê°€ì •
+				break;
+			}
+		}
+
+		// HPê°€ 0 ë¯¸ë§Œìœ¼ë¡œ ë–¨ì–´ì ¸ ìŒìˆ˜ ë¸”ë¡ì„ ê³„ì‚°í•˜ëŠ” ê²ƒì„ ë°©ì§€
+		if (playerHp < 0)
+			playerHp = 0;
+
+		// 2. 10 HPë‹¹ 1ê°œì˜ â–ˆ ë¸”ë¡ì„ ê³„ì‚°í•˜ì—¬ ë¬¸ìì—´ì„ ë§Œë“­ë‹ˆë‹¤.
+		wstring hpBlocks = L"";
+		int32 blockCount = playerHp / 10;
+		for (int32 i = 0; i < blockCount; ++i)
+		{
+			hpBlocks += L"â–ˆ ";
+		}
+
+		wstring labelStr = L"HP : ";
+		::TextOut(hdc, 20, 1000, labelStr.c_str(), static_cast<int>(labelStr.size()));
+
+		// 2. "HP : " ë¬¸ìì—´ì˜ í”½ì…€ ê¸¸ì´ë¥¼ ê³„ì‚°í•˜ì—¬ ë‹¤ìŒì— ê·¸ë¦´ X ì¢Œí‘œë¥¼ êµ¬í•¨
+		SIZE size;
+		::GetTextExtentPoint32(hdc, labelStr.c_str(), static_cast<int>(labelStr.size()), &size);
+
+		// 3. í…ìŠ¤íŠ¸ ìƒ‰ìƒì„ ë¹¨ê°„ìƒ‰ìœ¼ë¡œ ë³€ê²½í•˜ê³  ì²´ë ¥ ë°” ì¶œë ¥
+		COLORREF oldColor = ::SetTextColor(hdc, RGB(185, 238, 132));
+		::TextOut(hdc, 20 + size.cx, 1000, hpBlocks.c_str(), static_cast<int>(hpBlocks.size()));
+		::SetTextColor(hdc, oldColor);
 	}
 }

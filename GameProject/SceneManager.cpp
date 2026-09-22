@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SceneManager.h"
+#include "MenuScene.h"
 #include "GameScene.h"
 
 void SceneManager::Init()
@@ -32,6 +33,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 
 	switch (sceneType)
 	{
+	case SceneType::MenuScene:
+		newScene = new MenuScene();
+		break;
 	case SceneType::GameScene:
 		newScene = new GameScene();
 		break;
