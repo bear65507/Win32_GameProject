@@ -2,11 +2,14 @@
 #include "GameScene.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "SceneManager.h"
 #include "ObjectManager.h"
 #include "TimeManager.h"
 
 extern int32 windowWidth;
 extern int32 windowLength;
+
+int32 g_score = 0;
 
 GameScene::GameScene()
 {
@@ -78,6 +81,19 @@ void GameScene::Update()
 	{
 		_spawnTimer = 0.0f;
 	}
+
+	int32 playerHp = 0;
+	for (Object* object : objects)
+	{
+		if (object->GetObjectType() == ObjectType::Player)
+		{
+			playerHp = object->GetStat().hp;
+			break;
+		}
+	}
+
+	if (playerHp <= 0)
+		GET_SINGLE(SceneManager)->ChangeScene(SceneType::OverScene);
 }
 
 void GameScene::Render(HDC hdc)
@@ -90,7 +106,7 @@ void GameScene::Render(HDC hdc)
 
 	{
 		int32 playerHp = 0;
-		const vector<Object*>& objects = GET_SINGLE(ObjectManager)->GetObjects();
+		//const vector<Object*>& objects = GET_SINGLE(ObjectManager)->GetObjects();
 
 		// 1. ObjectManager를 순회하며 플레이어 객체를 찾습니다.
 		for (Object* object : objects)
@@ -125,5 +141,11 @@ void GameScene::Render(HDC hdc)
 		COLORREF oldColor = ::SetTextColor(hdc, RGB(185, 238, 132));
 		::TextOut(hdc, 20 + size.cx, 1000, hpBlocks.c_str(), static_cast<int>(hpBlocks.size()));
 		::SetTextColor(hdc, oldColor);
+	}
+
+	// TODO : 점수 기능 추가
+	{
+		wstring scoreStr = std::format(L"Score : {0}", g_score);
+		::TextOut(hdc, 20, 10, scoreStr.c_str(), static_cast<int>(scoreStr.size()));
 	}
 }

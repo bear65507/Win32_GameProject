@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "MenuScene.h"
 #include "GameScene.h"
+#include "OverScene.h"
 
 void SceneManager::Init()
 {
@@ -38,6 +39,9 @@ void SceneManager::ChangeScene(SceneType sceneType)
 		break;
 	case SceneType::GameScene:
 		newScene = new GameScene();
+		break;
+	case SceneType::OverScene:
+		newScene = new OverScene();
 		break;
 	}
 

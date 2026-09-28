@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Enemy.h"
+#include "EnemyGuns.h"
+#include "Player.h"
 #include "TimeManager.h"
 #include "ObjectManager.h"
 
@@ -106,6 +108,22 @@ void Enemy::Update()
 			}
 		}
 	}
+	// ==========================================
+	// 플레이어를 향해 총알 발사 로직 추가
+	_shootTimer += deltaTime;
+	if (_shootTimer >= 1.5f) // 1.5초마다 발사
+	{
+		_shootTimer = 0.0f;
+
+		// 방향을 일직선 아래(Y축 양수 방향)로 고정합니다.
+		Vector dir = Vector(0.0f, 1.0f);
+
+		EnemyGuns* bullet = GET_SINGLE(ObjectManager)->CreateObject<EnemyGuns>();
+		bullet->SetPos(_pos);
+		bullet->SetDir(dir);
+		GET_SINGLE(ObjectManager)->Add(bullet);
+	}
+	// ==========================================
 }
 
 void Enemy::Render(HDC hdc)

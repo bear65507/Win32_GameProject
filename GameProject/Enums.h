@@ -6,5 +6,6 @@ enum class SceneType
 	DevScene,
 	GameScene,
 	MenuScene,
+	OverScene,
 	EditScene,
 };

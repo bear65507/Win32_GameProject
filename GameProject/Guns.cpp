@@ -4,6 +4,8 @@
 #include "TimeManager.h"
 #include "ObjectManager.h"
 
+extern int32 g_score;
+
 Guns::Guns() : Object(ObjectType::Projectile)
 {
 }
@@ -57,7 +59,10 @@ void Guns::Update()
 			object->GetStat().hp -= _stat.damage;
 
 			if (object->GetStat().hp <= 0)
+			{
 				GET_SINGLE(ObjectManager)->Remove(object);
+				g_score += 200;
+			}
 			GET_SINGLE(ObjectManager)->Remove(this);
 			return; // 나 자신(미사일)이 삭제되었으므로 즉시 함수 종료
 		}

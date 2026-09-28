@@ -14,5 +14,6 @@ public:
 private:
 	Vector _dir;
 	bool _isRandomMoving = false;
+	float _shootTimer = 0.0f;
 };
 
