@@ -1,12 +1,16 @@
 // Pre-Complied Header
 #pragma once
 
+#include <windows.h>
+#include <objidl.h>
+#include <gdiplus.h>
+#pragma comment(lib, "gdiplus.lib")
+
 #include "Types.h"
 #include "Defines.h"
 #include "Enums.h"
 #include "Utils.h"
 
-#include <windows.h>
 #include <vector>
 #include <list>
 #include <map>

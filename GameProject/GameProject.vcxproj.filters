@@ -107,6 +107,9 @@
     <ClInclude Include="EnemyGuns.h">
       <Filter>소스 파일\03. Objects\Game</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>소스 파일\01. Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameProject.cpp">
@@ -162,6 +165,9 @@
     </ClCompile>
     <ClCompile Include="EnemyGuns.cpp">
       <Filter>소스 파일\03. Objects\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>소스 파일\01. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

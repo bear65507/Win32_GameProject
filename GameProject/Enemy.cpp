@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "TimeManager.h"
 #include "ObjectManager.h"
+#include "ResourceManager.h"
 
 extern int32 windowWidth;
 extern int32 windowLength;
@@ -25,6 +26,8 @@ void Enemy::Init()
 
 	_dir = Vector(0.0f, 1.0f);
 	_isRandomMoving = false;
+
+	_image = GET_SINGLE(ResourceManager)->GetImage(L"Enemy");
 }
 
 void Enemy::Update()
@@ -128,12 +131,15 @@ void Enemy::Update()
 
 void Enemy::Render(HDC hdc)
 {
-	// Enemy를 빨간색으로
-	HPEN pen = ::CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-	HPEN oldPen = (HPEN)::SelectObject(hdc, pen);
+	if (_image != nullptr)
 	{
-		Utils::DrawTriangleInvert(hdc, _pos, 50);
+		Gdiplus::Graphics graphics(hdc);
+		int width = _image->GetWidth();
+		int height = _image->GetHeight();
+
+		graphics.DrawImage(_image,
+			static_cast<int>(_pos.x) - width / 2,
+			static_cast<int>(_pos.y) - height / 2,
+			width, height);
 	}
-	::SelectObject(hdc, oldPen);
-	::DeleteObject(pen);
 }

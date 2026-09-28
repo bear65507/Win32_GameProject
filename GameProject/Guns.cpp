@@ -3,6 +3,7 @@
 #include "Effect.h"
 #include "TimeManager.h"
 #include "ObjectManager.h"
+#include "ResourceManager.h"
 
 extern int32 g_score;
 
@@ -18,6 +19,8 @@ void Guns::Init()
 {
 	_stat.speed = 600;
 	_stat.damage = 20;
+
+	_image = GET_SINGLE(ResourceManager)->GetImage(L"Guns");
 }
 
 void Guns::Update()
@@ -78,5 +81,16 @@ void Guns::Update()
 
 void Guns::Render(HDC hdc)
 {
-	Utils::DrawCircle(hdc, _pos, 10);
+	if (_image != nullptr)
+	{
+		Gdiplus::Graphics graphics(hdc);
+		int width = _image->GetWidth();
+		int height = _image->GetHeight();
+
+		// 객체의 중심 좌표를 기준으로 이미지 출력
+		graphics.DrawImage(_image,
+			static_cast<int>(_pos.x) - width / 2,
+			static_cast<int>(_pos.y) - height / 2,
+			width, height);
+	}
 }

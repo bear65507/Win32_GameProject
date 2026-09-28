@@ -4,6 +4,7 @@
 #include "TimeManager.h"
 #include "Guns.h"
 #include "ObjectManager.h"
+#include "ResourceManager.h"
 
 extern int32 windowWidth;
 extern int32 windowLength;
@@ -24,6 +25,8 @@ void Player::Init()
 
 	_pos.x = 400;
 	_pos.y = 500;
+
+	_image = GET_SINGLE(ResourceManager)->GetImage(L"Player");
 }
 
 void Player::Update()
@@ -78,5 +81,16 @@ void Player::Update()
 
 void Player::Render(HDC hdc)
 {
-	Utils::DrawTriangle(hdc, _pos, 70);
+	if (_image != nullptr)
+	{
+		Gdiplus::Graphics graphics(hdc);
+		int width = _image->GetWidth();
+		int height = _image->GetHeight();
+
+		// 중심점(_pos)을 기준으로 이미지를 렌더링
+		graphics.DrawImage(_image,
+			static_cast<int>(_pos.x) - width / 2,
+			static_cast<int>(_pos.y) - height / 2,
+			width, height);
+	}
 }

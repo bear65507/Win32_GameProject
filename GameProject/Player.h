@@ -10,6 +10,7 @@ public:
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-public:
+private:
+	Gdiplus::Image* _image = nullptr;
 };
 

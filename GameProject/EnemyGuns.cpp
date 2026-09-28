@@ -2,7 +2,7 @@
 #include "EnemyGuns.h"
 #include "TimeManager.h"
 #include "ObjectManager.h"
-#include <algorithm>
+#include "ResourceManager.h"
 
 extern int32 windowWidth;
 extern int32 windowLength;
@@ -19,6 +19,8 @@ void EnemyGuns::Init()
 {
 	_stat.speed = 400; // 적 총알 속도
 	_stat.damage = 10; // 요구하신 데미지 10 적용
+
+	_image = GET_SINGLE(ResourceManager)->GetImage(L"EnemyGuns");
 }
 
 void EnemyGuns::Update()
@@ -73,16 +75,15 @@ void EnemyGuns::Update()
 
 void EnemyGuns::Render(HDC hdc)
 {
-	// 적 총알은 구분을 위해 보라색 원으로 그립니다.
-	HPEN pen = ::CreatePen(PS_SOLID, 1, RGB(128, 0, 128));
-	HPEN oldPen = (HPEN)::SelectObject(hdc, pen);
-	HBRUSH brush = ::CreateSolidBrush(RGB(128, 0, 128));
-	HBRUSH oldBrush = (HBRUSH)::SelectObject(hdc, brush);
+	if (_image != nullptr)
+	{
+		Gdiplus::Graphics graphics(hdc);
+		int width = _image->GetWidth();
+		int height = _image->GetHeight();
 
-	Utils::DrawCircle(hdc, _pos, 8);
-
-	::SelectObject(hdc, oldPen);
-	::SelectObject(hdc, oldBrush);
-	::DeleteObject(pen);
-	::DeleteObject(brush);
+		graphics.DrawImage(_image,
+			static_cast<int>(_pos.x) - width / 2,
+			static_cast<int>(_pos.y) - height / 2,
+			width, height);
+	}
 }

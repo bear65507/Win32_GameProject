@@ -2,6 +2,7 @@
 #include "framework.h"
 #include "GameProject.h"
 #include "Game.h"
+#include "ResourceManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -20,6 +21,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
+    // --- GDI+ 초기화 추가 ---
+    ULONG_PTR gdiplusToken;
+    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+    Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+    // ------------------------
 
     // 1) 윈도우 창 정보 등록
     MyRegisterClass(hInstance);
@@ -60,6 +66,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
     }
+    GET_SINGLE(ResourceManager)->Clear();
+    Gdiplus::GdiplusShutdown(gdiplusToken);
 
     return (int)msg.wParam;
 }

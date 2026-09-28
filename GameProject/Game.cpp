@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "ObjectManager.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 
 Game::Game()
 {
@@ -14,6 +15,7 @@ Game::~Game()
 {
 	// 마지막에 해야 효과 있음
 	GET_SINGLE(SceneManager)->Clear();
+	GET_SINGLE(ResourceManager)->Clear();
 
 	_CrtDumpMemoryLeaks();
 }
@@ -33,6 +35,7 @@ void Game::Init(HWND hwnd)
 	GET_SINGLE(TimeManager)->Init();
 	GET_SINGLE(InputManager)->Init(hwnd);
 	GET_SINGLE(SceneManager)->Init();
+	GET_SINGLE(ResourceManager)->Init();
 
 	GET_SINGLE(SceneManager)->ChangeScene(SceneType::MenuScene);
 }
