@@ -49,9 +49,6 @@ void Game::Update()
 
 void Game::Render()
 {
-	uint32 fps = GET_SINGLE(TimeManager)->GetFps();
-	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
-
 	/*
 	// 마우스 위치
 	{
@@ -60,11 +57,6 @@ void Game::Render()
 		::TextOut(_hdcBack, 20, 10, str.c_str(), static_cast<int>(str.size()));
 	}
 	*/
-
-	{
-		wstring str = std::format(L"(FPS {0}, DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
-		::TextOut(_hdcBack, 650, 10, str.c_str(), static_cast<int>(str.size()));
-	}
 	
 	GET_SINGLE(SceneManager)->Render(_hdcBack);
 

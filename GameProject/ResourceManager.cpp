@@ -4,10 +4,12 @@
 void ResourceManager::Init()
 {
 	// 게임 시작 시 사용할 리소스들을 미리 로드해 둡니다.
-	LoadImageW(L"Player", L"../Resource/player.png");
-	LoadImageW(L"Enemy", L"../Resource/enemy.png");
+	LoadImageW(L"Player", L"../Resource/Player.png");
+	LoadImageW(L"Enemy", L"../Resource/Enemy.png");
 	LoadImageW(L"Guns", L"../Resource/Guns.png");
 	LoadImageW(L"EnemyGuns", L"../Resource/EnemyGuns.png");
+	LoadImageW(L"Background", L"../Resource/Background.png");
+	LoadImageW(L"Effect", L"../Resource/effect.png");
 }
 
 void ResourceManager::Clear()

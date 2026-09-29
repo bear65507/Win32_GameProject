@@ -2,7 +2,7 @@
 #include "Effect.h"
 #include "TimeManager.h"
 #include "ObjectManager.h"
-#include "Utils.h"
+#include "ResourceManager.h"
 
 // ObjectType에 Effect가 정의되어 있지 않다면 None이나 기타 타입으로 설정해 두셔도 무방합니다.
 Effect::Effect() : Object(ObjectType::Effect)
@@ -16,6 +16,7 @@ Effect::~Effect()
 void Effect::Init()
 {
 	_lifeTime = 0.0f;
+	_image = GET_SINGLE(ResourceManager)->GetImage(L"Effect");
 }
 
 void Effect::Update()
@@ -31,6 +32,16 @@ void Effect::Update()
 
 void Effect::Render(HDC hdc)
 {
-	// Utils에 정의된 DrawRect를 사용해 20x20 크기의 사각형을 그립니다.
-	Utils::DrawRect(hdc, _pos, 20, 20);
+	if (_image != nullptr)
+	{
+		Gdiplus::Graphics graphics(hdc);
+		int width = _image->GetWidth();
+		int height = _image->GetHeight();
+
+		// 객체의 중심 좌표를 기준으로 이펙트 이미지 출력
+		graphics.DrawImage(_image,
+			static_cast<int>(_pos.x) - width / 2,
+			static_cast<int>(_pos.y) - height / 2,
+			width, height);
+	}
 }

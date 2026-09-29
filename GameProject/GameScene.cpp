@@ -2,6 +2,7 @@
 #include "GameScene.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Background.h"
 #include "SceneManager.h"
 #include "ObjectManager.h"
 #include "TimeManager.h"
@@ -21,6 +22,12 @@ GameScene::~GameScene()
 
 void GameScene::Init()
 {
+	// 배경을 가장 먼저 생성
+	{
+		Background* bg = GET_SINGLE(ObjectManager)->CreateObject<Background>();
+		GET_SINGLE(ObjectManager)->Add(bg);
+	}
+
 	{
 		Player* player = GET_SINGLE(ObjectManager)->CreateObject<Player>();
 		player->SetPos(Pos{ static_cast<float>(windowWidth) / 2, static_cast<float>(windowLength) - 200 });
@@ -143,9 +150,15 @@ void GameScene::Render(HDC hdc)
 		::SetTextColor(hdc, oldColor);
 	}
 
-	// TODO : 점수 기능 추가
 	{
 		wstring scoreStr = std::format(L"Score : {0}", g_score);
 		::TextOut(hdc, 20, 10, scoreStr.c_str(), static_cast<int>(scoreStr.size()));
+	}
+
+	uint32 fps = GET_SINGLE(TimeManager)->GetFps();
+	float deltaTime = GET_SINGLE(TimeManager)->GetDeltaTime();
+	{
+		wstring str = std::format(L"(FPS {0}, DT({1} ms)", fps, static_cast<int32>(deltaTime * 1000));
+		::TextOut(hdc, 650, 10, str.c_str(), static_cast<int>(str.size()));
 	}
 }
