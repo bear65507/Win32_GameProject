@@ -22,6 +22,11 @@ GameScene::~GameScene()
 
 void GameScene::Init()
 {
+	// 씬이 재시작될 때 이전 게임의 모든 객체를 지워줍니다.
+	GET_SINGLE(ObjectManager)->Clear();
+
+	g_score = 0;
+
 	// 배경을 가장 먼저 생성
 	{
 		Background* bg = GET_SINGLE(ObjectManager)->CreateObject<Background>();

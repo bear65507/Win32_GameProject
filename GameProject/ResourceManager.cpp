@@ -8,8 +8,14 @@ void ResourceManager::Init()
 	LoadImageW(L"Enemy", L"../Resource/Enemy.png");
 	LoadImageW(L"Guns", L"../Resource/Guns.png");
 	LoadImageW(L"EnemyGuns", L"../Resource/EnemyGuns.png");
+
 	LoadImageW(L"Background", L"../Resource/Background.png");
 	LoadImageW(L"Effect", L"../Resource/effect.png");
+
+	LoadImageW(L"Title", L"../Resource/Title.png");
+	LoadImageW(L"Start", L"../Resource/start.png");
+	LoadImageW(L"GameOver", L"../Resource/Gameover.png");
+	LoadImageW(L"Retry", L"../Resource/retry.png");
 }
 
 void ResourceManager::Clear()

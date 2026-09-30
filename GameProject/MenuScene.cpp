@@ -2,6 +2,8 @@
 #include "MenuScene.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
+#include "TimeManager.h"
 
 extern int32 windowWidth;
 extern int32 windowLength;
@@ -16,16 +18,48 @@ MenuScene::~MenuScene()
 
 void MenuScene::Init()
 {
+	// 리소스 매니저에서 이미지 로드
+	_titleImage = GET_SINGLE(ResourceManager)->GetImage(L"Title");
+	_startImage = GET_SINGLE(ResourceManager)->GetImage(L"Start");
+
+	_blinkTimer = 0.0f;
+	_showStart = true;
 }
 
 void MenuScene::Update()
 {
+	// 1초 간격 깜빡임 로직
+	_blinkTimer += GET_SINGLE(TimeManager)->GetDeltaTime();
+	if (_blinkTimer >= 1.0f)
+	{
+		_showStart = !_showStart; // true/false 반전
+		_blinkTimer = 0.0f;       // 타이머 초기화
+	}
+
 	if (GET_SINGLE(InputManager)->GetButtonDown(KeyType::SpaceBar))
 		GET_SINGLE(SceneManager)->ChangeScene(SceneType::GameScene);
 }
 
 void MenuScene::Render(HDC hdc)
 {
-	wstring str = std::format(L"Press \'Space Bar\' to Start");
-	::TextOut(hdc, 280, 700, str.c_str(), static_cast<int>(str.size()));
+	Gdiplus::Graphics graphics(hdc);
+
+	// 1. 타이틀 배경 그리기 (화면 전체 크기로 출력)
+	if (_titleImage != nullptr)
+	{
+		graphics.DrawImage(_titleImage, 0, 0, windowWidth, windowLength);
+	}
+
+	// 2. 시작 안내 문구 그리기
+	if (_startImage != nullptr && _showStart)
+	{
+		int startWidth = _startImage->GetWidth();
+		int startHeight = _startImage->GetHeight();
+
+		// 화면 가로 중앙 계산: (전체 너비 / 2) - (이미지 너비 / 2)
+		int xPos = (windowWidth / 2) - (startWidth / 2);
+		int yPos = 700;
+
+		graphics.DrawImage(_startImage, xPos, yPos, startWidth, startHeight);
+	}
 }

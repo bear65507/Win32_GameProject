@@ -86,7 +86,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_GAMEPROJECT));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_GAMEPROJECT);
+    wcex.lpszMenuName   = nullptr;
     wcex.lpszClassName  = L"GameProject";
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -104,7 +104,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     ::AdjustWindowRect(&windowRect, windowStyle, false);
 
     // CreateWindowW에도 WS_OVERLAPPEDWINDOW 대신 windowStyle 적용
-    HWND hWnd = CreateWindowW(L"GameProject", L"MyGame", windowStyle,
+    HWND hWnd = CreateWindowW(L"GameProject", L"SLAM EAGLE", windowStyle,
         CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, hInstance, nullptr);
 
     g_HWND = hWnd;
